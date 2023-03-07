@@ -52,6 +52,7 @@ let adjectives = [];
 let words = [];
 let verbs = [];
 let largestWord = "";
+var topics=[]
 app.post("/",async(req,res)=>{
    try{
     const url=req.body.url;
@@ -68,26 +69,34 @@ app.post("/",async(req,res)=>{
 
       let trans=response.results.channels[0].alternatives[0].topics;
 
-      for (var i = 0; i < words.length; i++) { // use .endsWith() method on elements of words array 
-        if (words[i].endsWith("y") || words[i].endsWith("ed")) {  // push to adjectives array instead of words array 
-          adjectives.push(words[i]);   //  push to adjectives array instead of words array 
+    //   for (var i = 0; i < words.length; i++) { // use .endsWith() method on elements of words array 
+    //     if (words[i].endsWith("y") || words[i].endsWith("ed")) {  // push to adjectives array instead of words array 
+    //       adjectives.push(words[i]);   //  push to adjectives array instead of words array 
 
-        }
-        if (words[i].endsWith('ed') || words[i].endsWith('ing')) {
-          verbs.push(words[i]);
-        }
+    //     }
+    //     if (words[i].endsWith('ed') || words[i].endsWith('ing')) {
+    //       verbs.push(words[i]);
+    //     }
 
-        // find the largest word from the paragraph
-        if (words[i].Length > largestWord.Length) 
-    { 
-        largestWord = words[i]; 
-    } 
+    //     // find the largest word from the paragraph
+    //     if (words[i].Length > largestWord.Length) 
+    //    { 
+    //     largestWord = words[i]; 
+    //     } 
 
-      }
-    console.log(largestWord);
-    console.log(verbs);
-    console.log(adjectives);
-    res.send(response.results.channels[0].alternatives[0]);
+    //   }
+    // console.log(largestWord);
+    // console.log(verbs);
+    // console.log(adjectives);
+    topic_array=response.results.channels[0].alternatives[0].topics;
+    topic_array.forEach(topic=>{
+          topic.topics.forEach(t=>{
+           topics.push(t.topic);
+          })
+   
+    })
+    res.send(topics);
+
 
     } catch(err){
 
@@ -96,8 +105,8 @@ app.post("/",async(req,res)=>{
     }});
 
 app.get("/image",(req,res)=>{
-
-  const url = `https://api.envato.com/v1/discovery/search/search/item?term="databases",type=stock-video`;
+    console.log(topics);
+  const url = `https://api.envato.com/v1/discovery/search/search/item?term=${topics},type=stock-video`;
   const headers = {
     'Authorization':'Bearer TBR7vSbLt5ABo9Y5NFbxFYMnAvCYF887'
   };
