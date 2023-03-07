@@ -13,3 +13,5 @@ videoswitch.merge(mp4Links, {outputFormat: 'mp4'}, (err, output) => {
 
   console.log('Merged video is available at: ', output);
 });
+
+// merge the videos using links of the videos  using node js

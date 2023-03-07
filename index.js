@@ -50,6 +50,8 @@ app.get('/',(req,res)=>{
 
 let adjectives = [];
 let words = [];
+let verbs = [];
+let largestWord = "";
 app.post("/",async(req,res)=>{
    try{
     const url=req.body.url;
@@ -71,10 +73,21 @@ app.post("/",async(req,res)=>{
           adjectives.push(words[i]);   //  push to adjectives array instead of words array 
 
         }
+        if (words[i].endsWith('ed') || words[i].endsWith('ing')) {
+          verbs.push(words[i]);
+        }
+
+        // find the largest word from the paragraph
+        if (words[i].Length > largestWord.Length) 
+    { 
+        largestWord = words[i]; 
+    } 
 
       }
-
-      res.send(adjectives);
+    console.log(largestWord);
+    console.log(verbs);
+    console.log(adjectives);
+    res.send(response.results.channels[0].alternatives[0]);
 
     } catch(err){
 
@@ -84,7 +97,7 @@ app.post("/",async(req,res)=>{
 
 app.get("/image",(req,res)=>{
 
-  const url = `https://api.envato.com/v1/discovery/search/search/item?term=${adjectives},type=stock-video`;
+  const url = `https://api.envato.com/v1/discovery/search/search/item?term="databases",type=stock-video`;
   const headers = {
     'Authorization':'Bearer TBR7vSbLt5ABo9Y5NFbxFYMnAvCYF887'
   };
@@ -109,7 +122,7 @@ app.get("/image",(req,res)=>{
 
 
 
-
+// find the verbs in the paragraph using javascript
 
 
 app.listen(3000,()=>{
